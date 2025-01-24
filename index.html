@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dart Directory</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: url('https://media.istockphoto.com/id/649214280/vector/dart.jpg?s=2048x2048&w=is&k=20&c=I9uzorwuTDhRhrdN9To6JKHhN_efg_1LrdJel3hXPJQ=');
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.8);
+            margin: 2rem auto;
+            padding: 2rem;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 800px;
+        }
+        h1 {
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        input, button {
+            padding: 0.8rem;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #ff5722;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e64a19;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+        th, td {
+            padding: 1rem;
+            border: 1px solid #ddd;
+            text-align: left;
+            background: white;
+            color: black;
+        }
+        th {
+            background-color: #ff5722;
+            color: white;
+        }
+        .search-bar {
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Dart Directory</h1>
+        <form id="dart-form">
+            <input type="text" id="establishment-name" placeholder="Establishment Name" required>
+            <input type="text" id="address" placeholder="Address" required>
+            <button type="submit">Register Dart Board</button>
+        </form>
+
+        <input type="text" id="search-bar" class="search-bar" placeholder="Search by name or address...">
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Establishment Name</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+            <tbody id="dart-list">
+                <!-- Entries will be dynamically added here -->
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const form = document.getElementById('dart-form');
+        const dartList = document.getElementById('dart-list');
+        const searchBar = document.getElementById('search-bar');
+
+        const dartEntries = [];
+
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('establishment-name').value;
+            const address = document.getElementById('address').value;
+
+            dartEntries.push({ name, address });
+            updateTable();
+
+            form.reset();
+        });
+
+        searchBar.addEventListener('input', () => {
+            updateTable(searchBar.value);
+        });
+
+        function updateTable(searchTerm = '') {
+            dartList.innerHTML = '';
+
+            dartEntries
+                .filter(entry => 
+                    entry.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    entry.address.toLowerCase().includes(searchTerm.toLowerCase())
+                )
+                .forEach(entry => {
+                    const row = document.createElement('tr');
+
+                    const nameCell = document.createElement('td');
+                    nameCell.textContent = entry.name;
+
+                    const addressCell = document.createElement('td');
+                    addressCell.textContent = entry.address;
+
+                    row.appendChild(nameCell);
+                    row.appendChild(addressCell);
+                    dartList.appendChild(row);
+                });
+        }
+    </script>
+</body>
+</html>
